@@ -14,6 +14,7 @@ Stupid Simple Structured webnotes with text and drawing. Mainly for me.
 - More field types
 - Colors for canvas
 - Scalable drawing field
+- Better way of creating a PDF (Printing it and saving to PDF is not elegant nor reliable)
 
 ### Credits
 
