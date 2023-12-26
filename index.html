@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>	
+    <title>Kandraw </title	
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="main.css" />
+  </head>
+
+  <body>
+    <main>
+      <nav>
+	<div id=logo>KanDraw</div>
+	<button id="save_button" class="buttons">Save to PDF</button>
+      </nav>
+
+      <dialog id="insert_dialog">
+	<form method="dialog">
+	  <h3>Select a field type</h3>
+	  <button type="submit" value="Text" class="buttons">Text</button>
+	  <button type="submit" value="Draw" class="buttons">Draw</button>
+	</form>
+      </dialog>
+      <!-- initially hidden stuff -->
+      <button id="insert_button" class="float_buttons hidden">+</button>
+      <div id="canvas_backdrop" class="hidden"></div>
+      <div id="canvas_container" class="hidden">
+	<canvas id="canvas"></canvas>
+	<div>
+	  <button id="submit_button" class="buttons">Submit</button>
+	  <button id="clear_button" class="buttons">Clear</button>
+	</div>
+      </div>
+
+      <div class="hcenter">
+	<input name="title" placeholder="Enter Title Here..." id="title_input"></input>
+	<hr>
+      </div>
+      <!-- This is where text and images will be appended to and rendered -->
+      <div id="content"></div>
+
+      <div class="hcenter">
+	<button class="buttons" id="text_button">Add Text</button>
+	<button class="buttons" id="draw_button">Add Drawing</button>
+      </div>
+
+      <!-- for padding -->
+      <footer></footer>
+    </main>
+    <script src="main.js"></script>
+  </body>
+</html>
