@@ -78,12 +78,15 @@ canvas.addEventListener("pointerdown", (e) => {
   ctx.beginPath();
   ctx.lineTo(e.offsetX, e.offsetY);
   ctx.stroke();
+
   canvas.addEventListener("pointermove", draw);
+  e.target.setPointerCapture(e.pointerId)
 });
 
 canvas.addEventListener("pointerup", (e) => {
   ctx.closePath();
   canvas.removeEventListener("pointermove", draw);
+  e.target.releasePointerCapture(e.pointerId);
 });
 
 submitBtn.addEventListener("click", () => {
