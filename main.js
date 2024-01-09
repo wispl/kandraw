@@ -78,8 +78,8 @@ function startDrawing(event) {
   if (activePointerId || !event.isPrimary) {
   	return;
   }
+  points = [];
   activePointerId = event.pointerId;
-  console.log(activePointerId);
   points.push([event.offsetX, event.offsetY]);
   canvas.addEventListener("pointermove", savePoints);
   rAF = requestAnimationFrame(drawPoints);
@@ -112,7 +112,6 @@ function stopDrawing(event) {
   cancelAnimationFrame(rAF);
   rAF = null;
   drawPoints();
-  points = [];
 }
 
 function toggleCanvas() {

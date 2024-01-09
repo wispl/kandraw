@@ -54,6 +54,7 @@ footer {
 #canvas {
   background: #faf4ed;
   outline: solid 3px #d7827e;
+  touch-action: none;
 }
 
 #canvas_backdrop {
