@@ -22,3 +22,4 @@ Stupid Simple Structured webnotes with text and drawing. Mainly for me.
 * Minimal canvas implementation from [stackoverflow](https://stackoverflow.com/questions/22891827/how-do-i-hand-draw-on-canvas-with-javascript)
 * Colorscheme from [rosepine](https://rosepinetheme.com/)
 * Smooth canvas drawing from [pspdfkit](https://pspdfkit.com/blog/2019/using-getcoalescedevents/)
+* Canvas implementation from [patrickhlauke's excellent touch repository](https://github.com/patrickhlauke/touch)

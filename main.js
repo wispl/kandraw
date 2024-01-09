@@ -26,6 +26,7 @@ ctx.lineCap = "round";
 
 let rAF;
 let points = [];
+let activePointerId = null;
 
 let currentImage;
 let hoveredElement;
@@ -74,18 +75,24 @@ saveBtn.addEventListener("click", () => {
 
 // Canvas
 function startDrawing(event) {
+  if (activePointerId || !event.isPrimary) {
+  	return;
+  }
+  activePointerId = event.pointerId;
+  console.log(activePointerId);
   points.push([event.offsetX, event.offsetY]);
   canvas.addEventListener("pointermove", savePoints);
   rAF = requestAnimationFrame(drawPoints);
 }
 
 function savePoints(event) {
-  event.preventDefault();
-  points.push([event.offsetX, event.offsetY]);
+  if (event.pointerId === activePointerId) {
+    event.preventDefault();
+    points.push([event.offsetX, event.offsetY]);
+  }
 }
 
 function drawPoints() {
-  points = points.slice(-4);
   ctx.beginPath();
   points.forEach(point => {
     ctx.lineTo(point[0], point[1]);
@@ -100,6 +107,7 @@ function drawPoints() {
 }
 
 function stopDrawing(event) {
+  activePointerId = null;
   canvas.removeEventListener("pointermove", savePoints);
   cancelAnimationFrame(rAF);
   rAF = null;
