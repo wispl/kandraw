@@ -27,7 +27,6 @@ ctx.lineCap = "round";
 let rAF;
 let points = [];
 let activePointerId = null;
-let canvas_rect;
 
 let currentImage;
 let hoveredElement;
@@ -80,8 +79,8 @@ function startDrawing(event) {
   	return;
   }
   activePointerId = event.pointerId;
-  canvas_rect = canvas.getBoundingClientRect();
-  points.push([event.clientX - canvas_rect.x, event.clientY - canvas_rect.y]);
+  console.log(activePointerId);
+  points.push([event.offsetX, event.offsetY]);
   canvas.addEventListener("pointermove", savePoints);
   rAF = requestAnimationFrame(drawPoints);
 }
@@ -89,7 +88,7 @@ function startDrawing(event) {
 function savePoints(event) {
   if (event.pointerId === activePointerId) {
     event.preventDefault();
-    points.push([event.clientX - canvas_rect.x, event.clientY - canvas_rect.y]);
+    points.push([event.offsetX, event.offsetY]);
   }
 }
 
