@@ -20,54 +20,38 @@ const ctx = canvas.getContext("2d");
 canvas.width = maxWidth * 1.3;
 canvas.height = 200 * 1.3; // 200 is height of .drawing
 ctx.strokeStyle = "black";
-ctx.lineJoin = "round";
 ctx.lineWidth = 5;
+ctx.lineJoin = "round";
+ctx.lineCap = "round";
+
+let rAF;
+let points = [];
 
 let currentImage;
 let hoveredElement;
 
-canvas.addEventListener("pointerdown", (e) => {
-  if (e.target.hasPointerCapture(e.pointerId)) {
-    e.target.releasePointerCapture(e.pointerId);
-  }
-    e.target.releasePointerCapture(e.pointerId);
-  ctx.beginPath();
-  ctx.lineTo(e.offsetX, e.offsetY);
-  ctx.stroke();
-  canvas.addEventListener("pointermove", draw);
-});
+canvas.addEventListener("pointerdown", startDrawing);
+canvas.addEventListener("pointerup", stopDrawing);
+canvas.addEventListener("pointerout", stopDrawing);
 
-canvas.addEventListener("pointerup", (e) => {
-  ctx.closePath();
-  canvas.removeEventListener("pointermove", draw);
-});
-
+clearBtn.addEventListener("click", () => ctx.clearRect(0, 0, canvas.width, canvas.height));
 submitBtn.addEventListener("click", () => {
   canvas.toBlob((blob) => currentImage.src = URL.createObjectURL(blob));
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   toggleCanvas();
 });
 
-clearBtn.addEventListener("click", () => {
-  ctx.clearRect(0, 0, canvas.width, canvas.height)
-});
-
 // Other buttons
 drawBtn.addEventListener("click", () => content.appendChild(createDrawField()));
 textBtn.addEventListener("click", () => content.appendChild(createTextField()));
-
 insertBtn.addEventListener("click", () => insertDialog.showModal());
-
 insertDialog.addEventListener("close", () => {
-  console.log(hoveredElement);
   if (insertDialog.returnValue === "Draw") {
     hoveredElement.insertAdjacentElement("afterend", createDrawField());
   } else if (insertDialog.returnValue === "Text") {
     hoveredElement.insertAdjacentElement("afterend", createTextField());
-
   }
 });
-
 saveBtn.addEventListener("click", () => {
   const title = document.getElementById("title_input").value;
 
@@ -88,10 +72,39 @@ saveBtn.addEventListener("click", () => {
   printWindow.print();
 });
 
-// Canvas events
-function draw(e) {
-  ctx.lineTo(e.offsetX, e.offsetY);
+// Canvas
+function startDrawing(event) {
+  points.push([event.offsetX, event.offsetY]);
+  canvas.addEventListener("pointermove", savePoints);
+  rAF = requestAnimationFrame(drawPoints);
+}
+
+function savePoints(event) {
+  event.preventDefault();
+  points.push([event.offsetX, event.offsetY]);
+}
+
+function drawPoints() {
+  points = points.slice(-4);
+  ctx.beginPath();
+  points.forEach(point => {
+    ctx.lineTo(point[0], point[1]);
+    ctx.moveTo(point[0], point[1]);
+  });
+  ctx.closePath();
   ctx.stroke();
+
+  if (rAF) {
+    rAF = requestAnimationFrame(drawPoints);
+  }
+}
+
+function stopDrawing(event) {
+  canvas.removeEventListener("pointermove", savePoints);
+  cancelAnimationFrame(rAF);
+  rAF = null;
+  drawPoints();
+  points = [];
 }
 
 function toggleCanvas() {
@@ -99,6 +112,7 @@ function toggleCanvas() {
   backdrop.classList.toggle("hidden");
 }
 
+// TODO: Convert this into pointer events, or change the UX
 function addFloatButtonListeners(element) {
   element.addEventListener("mouseenter", (e) => {
     hoveredElement = e.target;

@@ -21,3 +21,4 @@ Stupid Simple Structured webnotes with text and drawing. Mainly for me.
 * Amazing growable textarea trick from [csstricks](https://css-tricks.com/auto-growing-inputs-textareas/)
 * Minimal canvas implementation from [stackoverflow](https://stackoverflow.com/questions/22891827/how-do-i-hand-draw-on-canvas-with-javascript)
 * Colorscheme from [rosepine](https://rosepinetheme.com/)
+* Smooth canvas drawing from [pspdfkit](https://pspdfkit.com/blog/2019/using-getcoalescedevents/)
