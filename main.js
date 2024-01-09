@@ -26,58 +26,11 @@ ctx.lineWidth = 5;
 let currentImage;
 let hoveredElement;
 
-function toggleCanvas() {
-  canvasContainer.classList.toggle("hidden");
-  backdrop.classList.toggle("hidden");
-}
-
-function addFloatButtonListeners(element) {
-  element.addEventListener("mouseenter", (e) => {
-    hoveredElement = e.target;
-    let rect = e.target.getBoundingClientRect();
-    insertBtn.style.top = rect.top + window.scrollY + "px";
-    insertBtn.style.left = rect.right + window.scrollX + "px";
-    insertBtn.classList.toggle("hidden");
-  });
-  element.addEventListener("mouseleave", () => insertBtn.classList.toggle("hidden"));
-}
-
-function createTextField() {
-  const textarea = document.createElement("textarea");
-  textarea.name = "text";
-  textarea.addEventListener("input", (e) => {
-    e.target.parentNode.dataset.replicatedValue = e.target.value;
-  });
-
-  const div = document.createElement("div");
-  div.classList.add("text_field");
-  div.appendChild(textarea);
-  addFloatButtonListeners(div);
-  return div;
-}
-
-function createDrawField() {
-  const img = document.createElement("img");
-  img.className = "draw_field";
-  img.addEventListener("click", () => {
-    currentImage = img;
-    ctx.drawImage(currentImage, 0, 0);
-    toggleCanvas();
-  });
-  addFloatButtonListeners(img);
-  return img;
-}
-
-// Canvas events
-function draw(e) {
-  ctx.lineTo(e.offsetX, e.offsetY);
-  ctx.stroke();
-}
-
 canvas.addEventListener("pointerdown", (e) => {
   if (e.target.hasPointerCapture(e.pointerId)) {
     e.target.releasePointerCapture(e.pointerId);
   }
+    e.target.releasePointerCapture(e.pointerId);
   ctx.beginPath();
   ctx.lineTo(e.offsetX, e.offsetY);
   ctx.stroke();
@@ -134,3 +87,51 @@ saveBtn.addEventListener("click", () => {
   printWindow.document.close();
   printWindow.print();
 });
+
+// Canvas events
+function draw(e) {
+  ctx.lineTo(e.offsetX, e.offsetY);
+  ctx.stroke();
+}
+
+function toggleCanvas() {
+  canvasContainer.classList.toggle("hidden");
+  backdrop.classList.toggle("hidden");
+}
+
+function addFloatButtonListeners(element) {
+  element.addEventListener("mouseenter", (e) => {
+    hoveredElement = e.target;
+    let rect = e.target.getBoundingClientRect();
+    insertBtn.style.top = rect.top + window.scrollY + "px";
+    insertBtn.style.left = rect.right + window.scrollX + "px";
+    insertBtn.classList.toggle("hidden");
+  });
+  element.addEventListener("mouseleave", () => insertBtn.classList.toggle("hidden"));
+}
+
+function createTextField() {
+  const textarea = document.createElement("textarea");
+  textarea.name = "text";
+  textarea.addEventListener("input", (e) => {
+    e.target.parentNode.dataset.replicatedValue = e.target.value;
+  });
+
+  const div = document.createElement("div");
+  div.classList.add("text_field");
+  div.appendChild(textarea);
+  addFloatButtonListeners(div);
+  return div;
+}
+
+function createDrawField() {
+  const img = document.createElement("img");
+  img.className = "draw_field";
+  img.addEventListener("click", () => {
+    currentImage = img;
+    ctx.drawImage(currentImage, 0, 0);
+    toggleCanvas();
+  });
+  addFloatButtonListeners(img);
+  return img;
+}
